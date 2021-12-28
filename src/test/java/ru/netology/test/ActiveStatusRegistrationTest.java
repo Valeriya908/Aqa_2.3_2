@@ -22,7 +22,7 @@ public class ActiveStatusRegistrationTest {
 
     @Test
     void shouldSendFormActiveUserWithValidData() {
-        $("[data-test-id='login'] input").setValue(info.getLogin());
+        $("[data-test-id='login'] input").setValue(info.getLogin() + "3");
         $("[data-test-id='password'] input").setValue(info.getPassword());
         $("[data-test-id='action-login'] .button__content ").click();
         $("[class='App_appContainer__3jRx1']").shouldHave(text("Личный кабинет"), Duration.ofSeconds(15));
