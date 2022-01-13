@@ -14,8 +14,6 @@ import static io.restassured.RestAssured.given;
 @UtilityClass
 public class DataGenerator {
 
-    Faker faker = new Faker(new Locale("en"));
-
     private static RequestSpecification requestSpec = new RequestSpecBuilder()
             .setBaseUri("http://localhost")
             .setPort(9999)
@@ -34,8 +32,20 @@ public class DataGenerator {
                 .statusCode(200);
     }
 
+    public static String generateLogin(String locale) {
+        Faker faker = new Faker(new Locale(locale));
+        return faker.name().username();
+    }
+
+    public static String generatePassword(String locale) {
+        Faker faker = new Faker(new Locale(locale));
+        return faker.internet().password();
+    }
+
     public static RegistrationInfo generateUser(String status) {
-        RegistrationInfo info = new RegistrationInfo(faker.name().username(), faker.internet().password(), status);
+        RegistrationInfo info = new RegistrationInfo(generateLogin("en"),
+                generatePassword("en"),
+                status);
         setUser(info);
         return info;
     }

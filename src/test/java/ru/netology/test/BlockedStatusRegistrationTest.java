@@ -1,5 +1,6 @@
 package ru.netology.test;
 
+import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.data.DataGenerator;
@@ -18,6 +19,7 @@ public class BlockedStatusRegistrationTest {
     @BeforeEach
     public void setUpTest() {
         open("http://localhost:9999");
+        Configuration.holdBrowserOpen = true;
     }
 
     @Test
@@ -31,7 +33,7 @@ public class BlockedStatusRegistrationTest {
 
     @Test
     void shouldSendFormBlockedUserWithInvalidLogin() {
-        $("[data-test-id='login'] input").setValue(info.getLogin() + "@");
+        $("[data-test-id='login'] input").setValue(DataGenerator.generateLogin("en"));
         $("[data-test-id='password'] input").setValue(info.getPassword());
         $("[data-test-id='action-login'] .button__content ").click();
         $("[data-test-id='error-notification'] .notification__title").shouldHave(text("Ошибка"), Duration.ofSeconds(15));
@@ -41,7 +43,7 @@ public class BlockedStatusRegistrationTest {
     @Test
     void shouldSendFormBlockedUserWithInvalidPassword() {
         $("[data-test-id='login'] input").setValue(info.getLogin());
-        $("[data-test-id='password'] input").setValue(info.getPassword() + "1");
+        $("[data-test-id='password'] input").setValue(DataGenerator.generatePassword("en"));
         $("[data-test-id='action-login'] .button__content ").click();
         $("[data-test-id='error-notification'] .notification__title").shouldHave(text("Ошибка"), Duration.ofSeconds(15));
         $("[data-test-id='error-notification'] .notification__content").shouldHave(text("Ошибка! Неверно указан логин или пароль"), Duration.ofSeconds(15));
